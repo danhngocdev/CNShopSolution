@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "CNShopSolution": "Server=.\\SQLEXPRESS;Database=CNShop;Trusted_Connection=True;"
+  }
+}
