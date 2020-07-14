@@ -29,7 +29,7 @@ namespace CNShopSolution.Data.Configuration
 
             builder.Property(x => x.ShipPhoneNumber).IsRequired().HasMaxLength(200);
 
-            //builder.HasOne(x => x.AppUser).WithMany(x => x.Orders).HasForeignKey(x => x.UserId);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.Orders).HasForeignKey(x => x.UserId);
         }
     }
 }

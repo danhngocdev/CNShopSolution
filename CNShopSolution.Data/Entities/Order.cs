@@ -16,6 +16,7 @@ namespace CNShopSolution.Data.Entities
         public string ShipPhoneNumber { set; get; }
         public OrderStatus Status { set; get; }
 
+        public AppUser AppUser { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
     }
 }
