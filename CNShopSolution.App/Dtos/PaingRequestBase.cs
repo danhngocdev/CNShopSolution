@@ -4,10 +4,9 @@ using System.Text;
 
 namespace CNShopSolution.App.Dtos
 {
-   public class PagedViewModel<T>
+    public class PaingRequestBase
     {
-
-        List<T> items { get; set; }
-        public int TotalRecord { get; set; }
+        public int PageIndex { get; set; }
+        public int PageSize { get; set; }
     }
 }
