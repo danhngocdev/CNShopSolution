@@ -1,6 +1,8 @@
-﻿using CNShopSolution.App.Catalog.Products.DTOS;
-using CNShopSolution.App.Catalog.Products.DTOS.Mangager;
-using CNShopSolution.App.Dtos;
+﻿using CNShopSolution.ViewModel.Catalog.Products;
+
+using CNShopSolution.ViewModel.Catalog.Products.Public;
+using CNShopSolution.ViewModel.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +12,7 @@ namespace CNShopSolution.App.Catalog.Products
 {
     public interface IManagedproductService
     {
-       Task<int> Create(ProductCreateRequest request);
+        Task<int> Create(ProductCreateRequest request);
 
         Task<int> Update(ProductEditRequest request);
 
@@ -21,6 +23,11 @@ namespace CNShopSolution.App.Catalog.Products
         Task<int> Delete(int productId);
 
         Task<List<ProductViewModel>> GetAll();
-        Task<PagedResult<ProductViewModel>> GetAllPaging(GetPaingProductRequest request);
+        Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPaingRequest request);
+        Task<int> AddImages(int productId,List<IFormFile> files);
+        Task<int> RemoveImages(int imageId);
+        Task<int> UpdateImage(int imageId, string Caption, bool isdefault);
+
+        Task<List<ProductImageViewModel>> GetListImage(int productId);
     }
 }

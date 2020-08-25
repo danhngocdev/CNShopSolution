@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CNShopSolution.App.Catalog.Products.DTOS.Mangager
+namespace CNShopSolution.ViewModel.Catalog.Products
 {
     public class ProductEditRequest
     {
@@ -14,5 +15,6 @@ namespace CNShopSolution.App.Catalog.Products.DTOS.Mangager
         public string SaoTitle { get; set; }
         public string SeoAlias { get; set; }
         public string LanguageId { get; set; }
+        public IFormFile ThumbnailImage { get; set; }
     }
 }

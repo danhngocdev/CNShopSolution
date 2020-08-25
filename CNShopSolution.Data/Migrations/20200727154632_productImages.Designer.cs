@@ -4,14 +4,16 @@ using CNShopSolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CNShopSolution.Data.Migrations
 {
     [DbContext(typeof(CNShopDbContext))]
-    partial class CNShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200727154632_productImages")]
+    partial class productImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -481,7 +483,7 @@ namespace CNShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2020, 7, 30, 23, 13, 13, 363, DateTimeKind.Local).AddTicks(2433),
+                            CreateDate = new DateTime(2020, 7, 27, 22, 46, 32, 201, DateTimeKind.Local).AddTicks(3180),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
@@ -505,8 +507,8 @@ namespace CNShopSolution.Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
+                    b.Property<int>("FileSize")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");

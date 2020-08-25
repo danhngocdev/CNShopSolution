@@ -1,7 +1,6 @@
-﻿using CNShopSolution.App.Catalog.Products.DTOS;
-using CNShopSolution.App.Catalog.Products.DTOS.Mangager;
-using CNShopSolution.App.Catalog.Products.DTOS.Public;
-using CNShopSolution.App.Dtos;
+﻿using CNShopSolution.ViewModel.Catalog.Products;
+using CNShopSolution.ViewModel.Catalog.Products.Public;
+using CNShopSolution.ViewModel.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace CNShopSolution.App.Catalog.Products
 {
-    public interface IPuclicProductService
+     public interface IPuclicProductService
     {
-       Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetProductPaingRequest request);
+        Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request);
+
+        Task<List<ProductViewModel>> GetAll();
     }
 }

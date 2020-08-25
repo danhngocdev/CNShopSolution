@@ -26,5 +26,6 @@ namespace CNShopSolution.Data.Entities
         {
             get; set;
         }
+        public List<ProductImage> ProductImages { get; set; }
     }
 }

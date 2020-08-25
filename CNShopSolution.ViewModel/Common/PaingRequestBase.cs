@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CNShopSolution.App.Dtos
+namespace CNShopSolution.ViewModel.Common
 {
     public class PaingRequestBase
     {

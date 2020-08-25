@@ -10,9 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CNShopSolution.Data", "CNShopSolution.Data\CNShopSolution.Data.csproj", "{266B145E-7E00-4106-A481-54137FC5DF54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CNShopSolution.Data", "CNShopSolution.Data\CNShopSolution.Data.csproj", "{266B145E-7E00-4106-A481-54137FC5DF54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CNShopSolution.App", "CNShopSolution.App\CNShopSolution.App.csproj", "{95DB1A2C-4AFE-48FC-B247-B01470D236E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CNShopSolution.App", "CNShopSolution.App\CNShopSolution.App.csproj", "{95DB1A2C-4AFE-48FC-B247-B01470D236E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CNShopSolution.ViewModel", "CNShopSolution.ViewModel\CNShopSolution.ViewModel.csproj", "{3EF521EE-C78E-4D28-BCB8-0BA656C689CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CNShopSolution.BackEndApi", "CNShopSolution.BackEndApi\CNShopSolution.BackEndApi.csproj", "{5827A147-2D51-4606-8DAE-1221E1224CB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +36,14 @@ Global
 		{95DB1A2C-4AFE-48FC-B247-B01470D236E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95DB1A2C-4AFE-48FC-B247-B01470D236E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95DB1A2C-4AFE-48FC-B247-B01470D236E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EF521EE-C78E-4D28-BCB8-0BA656C689CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EF521EE-C78E-4D28-BCB8-0BA656C689CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EF521EE-C78E-4D28-BCB8-0BA656C689CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EF521EE-C78E-4D28-BCB8-0BA656C689CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5827A147-2D51-4606-8DAE-1221E1224CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5827A147-2D51-4606-8DAE-1221E1224CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5827A147-2D51-4606-8DAE-1221E1224CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5827A147-2D51-4606-8DAE-1221E1224CB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
