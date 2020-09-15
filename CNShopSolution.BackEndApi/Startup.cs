@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CNShopSolution.App.Catalog.Products;
+using CNShopSolution.App.Common;
 using CNShopSolution.Data.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,9 @@ namespace CNShopSolution.BackEndApi
 
             //Declare DI 
             services.AddTransient<IPuclicProductService, PublicProductService>();
+            services.AddTransient<IManagedproductService, ManagedProductService>();
+            services.AddTransient<IStorageService, FileStorageService>();
+
 
             services.AddControllersWithViews();
 

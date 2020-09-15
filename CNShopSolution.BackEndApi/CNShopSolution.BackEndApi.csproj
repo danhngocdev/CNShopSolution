@@ -15,6 +15,10 @@
     <ProjectReference Include="..\CNShopSolution.ViewModel\CNShopSolution.ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\user-content\" />
+  </ItemGroup>
+
 
 
 </Project>
