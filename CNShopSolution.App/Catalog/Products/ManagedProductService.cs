@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using System.IO;
 using CNShopSolution.App.Common;
 using CNShopSolution.ViewModel.Catalog.Products.Public;
+using CNShopSolution.ViewModel.Catalog.ProductImages;
 
 namespace CNShopSolution.App.Catalog.Products
 {
@@ -22,23 +23,37 @@ namespace CNShopSolution.App.Catalog.Products
         
 
             private readonly CNShopDbContext _context;
-           private readonly FileStorageService _fileStorageService;
+           private readonly IStorageService _storageService;
 
-            public ManagedProductService(CNShopDbContext context, FileStorageService fileStorageService)
+            public ManagedProductService(CNShopDbContext context, IStorageService storageService)
             {
                 _context = context;
-            _fileStorageService = fileStorageService;
+            _storageService = storageService;
             }
 
-        public async Task<int> AddImages(int productId, List<IFormFile> files)
+        public async Task<int> AddImage(int productId, ProductImageCreateRequest request)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            var productImages = new ProductImage()
+            {
+                Caption = request.Caption,
+                CreateDate = DateTime.Now,
+                IsDefault = request.IsDefault,
+                ProductId = productId,
+                SortOrder = request.SortOrder,
 
-            if (product == null) throw new CNShopException($"Cannot find a product : {productId}");
-            return 1;
+            };
+            if (request.ImageFile !=null)
+            {
+                productImages.PathImages = await this.SaveFile(request.ImageFile);
+                productImages.FileSize = request.ImageFile.Length;
+            }
 
+            _context.ProductImages.Add(productImages);
+            await _context.SaveChangesAsync();
+            return productImages.Id;
 
         }
+
         public async Task AddViewCount(int productId)
             {
                 var product = await _context.Products.FindAsync(productId);
@@ -87,9 +102,9 @@ namespace CNShopSolution.App.Catalog.Products
                 };
             }
                 _context.Products.Add(product);
-                return await _context.SaveChangesAsync();
-
-            }
+                 await _context.SaveChangesAsync();
+            return product.Id;
+        }
 
             public async Task<int> Delete(int productId)
             {
@@ -100,19 +115,19 @@ namespace CNShopSolution.App.Catalog.Products
 
             foreach (var img in images)
             {
-              await  _fileStorageService.DeleleFileAsync(img.PathImages);
+              await  _storageService.DeleleFileAsync(img.PathImages);
             }
                 
                 _context.Products.Remove(product);
                 return await _context.SaveChangesAsync();
             }
 
-            public async Task<List<ProductViewModel>> GetAll()
-            {
-                throw new NotImplementedException();
-            }
+        public Task<List<ProductViewModel>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
 
-            public async Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPaingRequest request)
+        public async Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPaingRequest request)
             {
                 var query = from p in _context.Products
                             join pt in _context.ProductTranslations on p.Id equals pt.ProductId
@@ -159,32 +174,110 @@ namespace CNShopSolution.App.Catalog.Products
 
             }
 
-        public Task<List<ProductImageViewModel>> GetListImage(int productId)
+        public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(productId);
+            var productTran = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId && x.LanguageId == languageId );
+
+            var productviewModel = new ProductViewModel()
+            {
+                ID = product.Id,
+                CreateDate = product.CreateDate,
+                Description = productTran != null ? productTran.Description : null,
+                LanguageId = productTran.LanguageId,
+                Details = productTran != null ? productTran.Details : null,
+                Name = productTran != null ? productTran.Name : null,
+                OriginalPrice = product.OriginalPrice,
+                Price = product.Price,
+                SeoAlias = productTran != null ? productTran.SeoAlias : null,
+                SeoDescription = productTran != null ? productTran.SeoDescription : null,
+                SeoTitle = productTran != null ? productTran.SeoTitle : null,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount
+            };
+
+            return productviewModel;
+
         }
 
-        public async Task<int> RemoveImages(int imageId)
+        public async Task<ProductImageViewModel> GetImageById(int iamgeId)
         {
-            var images = await _context.ProductImages.FirstOrDefaultAsync(x => x.Id == imageId);
-
-
-            if (images != null)
+            var product = await _context.ProductImages.FindAsync(iamgeId);
+            if (product == null)
             {
-                _context.ProductImages.Remove(images);
+                throw new CNShopException($"Cannot find an iamge with id{iamgeId}");
             }
-            else
-            {
-                throw new CNShopException($"Cannot find a product with id  : {imageId}");
-            }
-      
 
-            return  await _context.SaveChangesAsync();
+            var productviewModel = new ProductImageViewModel()
+            {
+               Caption = product.Caption,
+               CreateDate = product.CreateDate,
+               FilePath = product.PathImages,
+               FileSize =product.FileSize,
+               Id = product.Id,
+               ProductId = product.ProductId,
+               IsDefault = product.IsDefault,
+               SortOrder = product.SortOrder
+
+            };
+
+            return productviewModel;
+
         }
 
+        public async Task<List<ProductImageViewModel>> GetListImages(int productId)
+        {
+            return await _context.ProductImages.Where(x => x.ProductId == productId).Select(i => new ProductImageViewModel()
+            {
+                Caption = i.Caption,
+                CreateDate = i.CreateDate,
+                FileSize = i.FileSize,
+                Id = i.Id,
+                IsDefault = i.IsDefault,
+                ProductId = i.ProductId,
+                FilePath = i.PathImages,
+                SortOrder = i.SortOrder
+            }).ToListAsync();
+        }
+
+        public async Task<int> RemoveImage(int imageId)
+        {
+            var image = await _context.ProductImages.FindAsync(imageId);
+            if (image == null)
+            {
+                throw new CNShopException($"Cannot find an image with id {imageId}");
+            }
+            _context.ProductImages.Remove(image);
+           return await _context.SaveChangesAsync();
+
+        }
+
+        //public Task<List<ProductImageViewModel>> GetListImage(int productId)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public async Task<int> RemoveImages(int imageId)
+        //{
+        //    var images = await _context.ProductImages.FirstOrDefaultAsync(x => x.Id == imageId);
 
 
-            public async Task<int> Update(ProductEditRequest request)
+        //    if (images != null)
+        //    {
+        //        _context.ProductImages.Remove(images);
+        //    }
+        //    else
+        //    {
+        //        throw new CNShopException($"Cannot find a product with id  : {imageId}");
+        //    }
+
+
+        //    return  await _context.SaveChangesAsync();
+        //}
+
+
+
+        public async Task<int> Update(ProductEditRequest request)
             {
                 var product = await _context.Products.FindAsync(request.Id);
                 var productTran = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == request.Id);
@@ -215,22 +308,40 @@ namespace CNShopSolution.App.Catalog.Products
             return await _context.SaveChangesAsync();
             }
 
-        public async Task<int> UpdateImage(int imageId, string Caption, bool isdefault)
+        public async Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request)
         {
-            var productimg = await _context.ProductImages.FirstOrDefaultAsync(x => x.Id == imageId);
-            if (productimg != null)
+            var image = await _context.ProductImages.FindAsync(imageId);
+            if (image == null)
             {
-                productimg.Caption = Caption;
-                productimg.IsDefault = isdefault;
-                _context.ProductImages.Update(productimg);
-            }
-            else
-            {
-                throw new CNShopException($"Cannot find a product with id  : {imageId}");
+                throw new CNShopException($"Cannot find an image with id {imageId}");
             }
 
+            if (request.ImageFile != null)
+            {
+                image.PathImages = await this.SaveFile(request.ImageFile);
+                image.FileSize = request.ImageFile.Length;
+            }
+
+            _context.ProductImages.Update(image);
             return await _context.SaveChangesAsync();
         }
+
+        //public async Task<int> UpdateImage(int imageId, ProductImageViewModel productImage)
+        //{
+        //    var productimg = await _context.ProductImages.FirstOrDefaultAsync(x => x.Id == imageId);
+        //    if (productimg != null)
+        //    {
+        //        productimg.Caption = Caption;
+        //        productimg.IsDefault = isdefault;
+        //        _context.ProductImages.Update(productimg);
+        //    }
+        //    else
+        //    {
+        //        throw new CNShopException($"Cannot find a product with id  : {imageId}");
+        //    }
+
+        //    return await _context.SaveChangesAsync();
+        //}
 
         public async Task<bool> UpdatePrice(int productId, decimal newprice)
             {
@@ -253,7 +364,7 @@ namespace CNShopSolution.App.Catalog.Products
             {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _fileStorageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
 
             return fileName;
 

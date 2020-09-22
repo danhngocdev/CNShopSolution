@@ -1,4 +1,5 @@
-﻿using CNShopSolution.ViewModel.Catalog.Products;
+﻿using CNShopSolution.ViewModel.Catalog.ProductImages;
+using CNShopSolution.ViewModel.Catalog.Products;
 
 using CNShopSolution.ViewModel.Catalog.Products.Public;
 using CNShopSolution.ViewModel.Common;
@@ -16,6 +17,8 @@ namespace CNShopSolution.App.Catalog.Products
 
         Task<int> Update(ProductEditRequest request);
 
+        Task<ProductViewModel> GetById(int productId,string languageId);
+
         Task<bool> UpdatePrice(int productId, decimal newprice);
         Task<bool> UpdateStock(int productId, decimal addQuantity);
 
@@ -24,10 +27,12 @@ namespace CNShopSolution.App.Catalog.Products
 
         Task<List<ProductViewModel>> GetAll();
         Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPaingRequest request);
-        Task<int> AddImages(int productId,List<IFormFile> files);
-        Task<int> RemoveImages(int imageId);
-        Task<int> UpdateImage(int imageId, string Caption, bool isdefault);
+        Task<int> AddImage(int productId, ProductImageCreateRequest productImage);
+        Task<int> RemoveImage(int imageId);
+        Task<int> UpdateImage(int imageId, ProductImageUpdateRequest productImage);
 
-        Task<List<ProductImageViewModel>> GetListImage(int productId);
+        Task<ProductImageViewModel> GetImageById(int iamgeId);
+
+        Task<List<ProductImageViewModel>> GetListImages(int productId);
     }
 }

@@ -7,6 +7,7 @@ namespace CNShopSolution.ViewModel.Catalog.Products.Public
 {
     public class GetPublicProductPagingRequest : PaingRequestBase
     {
+        
         public int? Category_Id { get; set; }
     }
 }

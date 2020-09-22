@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CNShopSolution.App.Catalog.Products;
+using CNShopSolution.App.Common;
+using CNShopSolution.App.System;
 using CNShopSolution.Data.EF;
+using CNShopSolution.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,8 +34,19 @@ namespace CNShopSolution.BackEndApi
             services.AddDbContext<CNShopDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("CNShopSolution")));
 
-            //Declare DI 
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<CNShopDbContext>()
+                .AddDefaultTokenProviders();
+
+            //Declare DI
             services.AddTransient<IPuclicProductService, PublicProductService>();
+            services.AddTransient<IManagedproductService, ManagedProductService>();
+            services.AddTransient<IStorageService, FileStorageService>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+
+            services.AddTransient<IUserService, UserService>();
 
             services.AddControllersWithViews();
 
