@@ -6,6 +6,7 @@ using CNShopSolution.App.Catalog.Products;
 using CNShopSolution.ViewModel.Catalog.ProductImages;
 using CNShopSolution.ViewModel.Catalog.Products;
 using CNShopSolution.ViewModel.Catalog.Products.Public;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace CNShopSolution.BackEndApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
 
