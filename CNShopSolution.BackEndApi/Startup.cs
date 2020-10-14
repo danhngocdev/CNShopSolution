@@ -7,6 +7,10 @@ using CNShopSolution.App.Common;
 using CNShopSolution.App.System;
 using CNShopSolution.Data.EF;
 using CNShopSolution.Data.Entities;
+using CNShopSolution.ViewModel.System.Users;
+using CNShopSolution.ViewModel.System.Validation;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,7 +54,14 @@ namespace CNShopSolution.BackEndApi
 
             services.AddTransient<IUserService, UserService>();
 
-            services.AddControllers();
+
+            //Validation
+            services.AddTransient<IValidator<LoginRequest>, LoginRequestValidation>();
+            services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
+
+            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidation>());
+
 
             services.AddSwaggerGen(c =>
             {
