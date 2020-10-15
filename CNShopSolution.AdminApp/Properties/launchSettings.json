@@ -1,10 +1,10 @@
 ﻿{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:51201",
-      "sslPort": 44339
+      "applicationUrl": "http://localhost:50348",
+      "sslPort": 44311
     }
   },
   "profiles": {
@@ -15,11 +15,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CNShopSolution.BackEndApi": {
+    "CNShopSolution.AdminApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:5001",
+      "applicationUrl": "https://localhost:5002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
