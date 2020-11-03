@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CNShopSolution.App.Catalog.Products
 {
-    public interface IManagedproductService
+    public interface IProductService
     {
         Task<int> Create(ProductCreateRequest request);
 
@@ -34,5 +34,8 @@ namespace CNShopSolution.App.Catalog.Products
         Task<ProductImageViewModel> GetImageById(int iamgeId);
 
         Task<List<ProductImageViewModel>> GetListImages(int productId);
+
+        Task<PagedResult<ProductViewModel>> GetAllByCategoryId(string languageId, GetPublicProductPagingRequest request);
+
     }
 }

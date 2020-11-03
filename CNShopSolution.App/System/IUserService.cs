@@ -1,4 +1,5 @@
-﻿using CNShopSolution.ViewModel.System.Users;
+﻿using CNShopSolution.ViewModel.Common;
+using CNShopSolution.ViewModel.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,7 @@ namespace CNShopSolution.App.System
         Task<string> Authencate(LoginRequest request);
 
         Task<bool> Register(RegisterRequest request);
+
+        Task<PagedResult<UserViewModel>> GetUsersPaging(GetUserPagingRequest request);
     }
 }

@@ -45,8 +45,8 @@ namespace CNShopSolution.BackEndApi
                 .AddDefaultTokenProviders();
 
             //Declare DI
-            services.AddTransient<IPuclicProductService, PublicProductService>();
-            services.AddTransient<IManagedproductService, ManagedProductService>();
+           
+            services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();

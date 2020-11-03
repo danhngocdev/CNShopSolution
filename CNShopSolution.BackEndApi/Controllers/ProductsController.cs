@@ -18,12 +18,12 @@ namespace CNShopSolution.BackEndApi.Controllers
     public class ProductsController : ControllerBase
     {
 
-        private readonly IPuclicProductService _publicProductService;
-        private readonly IManagedproductService _managedproductService;
-        public ProductsController(IPuclicProductService puclicProductService,IManagedproductService managedproductService)
+        private readonly IProductService _publicProductService;
+        //private readonly IProductService _publicProductService;
+        public ProductsController(IProductService puclicProductService,IProductService managedproductService)
         {
             _publicProductService = puclicProductService;
-            _managedproductService = managedproductService;
+            //_publicProductService = managedproductService;
         }
 
       
@@ -39,7 +39,7 @@ namespace CNShopSolution.BackEndApi.Controllers
         [HttpGet("{productId}/{languageId}")]
         public async Task<IActionResult> GetById(int productId,string languageId)
         {
-            var product = await _managedproductService.GetById(productId, languageId);
+            var product = await _publicProductService.GetById(productId, languageId);
             if (product == null)
                 return BadRequest("Cannot find product");
             return Ok(product);
@@ -53,12 +53,12 @@ namespace CNShopSolution.BackEndApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var productId = await _managedproductService.Create(request);
+            var productId = await _publicProductService.Create(request);
 
             if (productId == 0)
                 return BadRequest();
 
-            var product = await _managedproductService.GetById(productId, request.LanguageId);
+            var product = await _publicProductService.GetById(productId, request.LanguageId);
             return CreatedAtAction(nameof(GetById),new { id = productId }, product);
 
 
@@ -71,7 +71,7 @@ namespace CNShopSolution.BackEndApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var affectedResult = await _managedproductService.Update(request);
+            var affectedResult = await _publicProductService.Update(request);
 
             if (affectedResult == 0)
                 return BadRequest();
@@ -84,7 +84,7 @@ namespace CNShopSolution.BackEndApi.Controllers
         public async Task<IActionResult> Delete(int productId)
         {
 
-            var affectedResult = await _managedproductService.Delete(productId);
+            var affectedResult = await _publicProductService.Delete(productId);
 
             if (affectedResult == 0)
                 return BadRequest();
@@ -97,7 +97,7 @@ namespace CNShopSolution.BackEndApi.Controllers
         public async Task<IActionResult> UpdatePrice(int id, decimal newPrice)
         {
 
-            var isSuccessful = await _managedproductService.UpdatePrice(id,newPrice);
+            var isSuccessful = await _publicProductService.UpdatePrice(id,newPrice);
 
             if (isSuccessful)
                 return Ok ();
@@ -114,7 +114,7 @@ namespace CNShopSolution.BackEndApi.Controllers
         [HttpGet("{productId}/image/{iamgeId}")]
         public async Task<IActionResult> GetImageById(int productId, int iamgeId)
         {
-            var product = await _managedproductService.GetImageById(iamgeId);
+            var product = await _publicProductService.GetImageById(iamgeId);
             if (product == null)
                 return BadRequest("Cannot find product");
             return Ok(product);
@@ -127,14 +127,14 @@ namespace CNShopSolution.BackEndApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var imageId = await _managedproductService.AddImage(productId, request);
+            var imageId = await _publicProductService.AddImage(productId, request);
 
             if (imageId == 0)
             {
                 return BadRequest();
 
             }
-            var image = await _managedproductService.GetImageById(imageId);
+            var image = await _publicProductService.GetImageById(imageId);
 
             return CreatedAtAction(nameof(GetImageById), new { id = imageId }, image);
 
@@ -147,7 +147,7 @@ namespace CNShopSolution.BackEndApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var image= await _managedproductService.UpdateImage(imageId, request);
+            var image= await _publicProductService.UpdateImage(imageId, request);
 
             if (image == 0)
             {
@@ -167,7 +167,7 @@ namespace CNShopSolution.BackEndApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var image = await _managedproductService.RemoveImage(imageId);
+            var image = await _publicProductService.RemoveImage(imageId);
 
             if (image == 0)
             {
